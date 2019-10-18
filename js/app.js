@@ -7,8 +7,13 @@ GAME RULES:
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
 
+Extra rules:
+-A player looses a game when he rolls two sixes in a row all score global present previous 
+-input field to set limit from html
+-second dice player looses current score if only one of them is a one 
+
 */
-var scores, roundScore, activePlayer, isGamePlaying;
+var scores, roundScore, previousRoll, currentRoll, activePlayer, isGamePlaying;
 
 init();
 
@@ -18,8 +23,8 @@ function to reset global score as well as round scores
 function init() {
   //hide the dice in the begining of the game
   activePlayer = 0;
-  roundScore = 0;
   scores = [0, 0];
+  resetPreviousCurrentRoundScore();
   document.querySelector(".dice").style.display = "none";
   document.getElementById("score-0").textContent = 0;
   document.getElementById("score-1").textContent = 0;
@@ -40,25 +45,59 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
   if (isGamePlaying) {
     //1. Get a randome number for dice value between 1 and 6
     var dice = Math.floor(Math.random() * 6) + 1;
-    console.log("dice value : " + dice);
     //2. Display the result
     var diceDOM = document.querySelector(".dice");
     diceDOM.style.display = "block";
     diceDOM.src = "../images/dice-" + dice + ".png";
     //3. Update round score if the rolled number is not one
     if (dice !== 1) {
-      //add score
-      roundScore += dice;
-      document.querySelector(
-        "#current-" + activePlayer
-      ).textContent = roundScore;
+      if (dice === 6 && currentRoll === 6) {
+        previousRoll = currentRoll;
+        currentRoll = dice;
+        printCurrentAndPreviousDiceValuesForActivePlayer();
+        makeActivePlayerLoose();
+      } else {
+        previousRoll = currentRoll;
+        currentRoll = dice;
+        //add score to round score
+        roundScore += dice;
+        //update Ui score of active player to round score as current score
+        document.querySelector(
+          "#current-" + activePlayer
+        ).textContent = roundScore;
+        printCurrentAndPreviousDiceValuesForActivePlayer();
+      }
     } else {
       //set nextplayer after resetting round score
       nextPlayer();
+      printCurrentAndPreviousDiceValuesForActivePlayer();
     }
   }
 });
 
+/*
+Make the active user lose 
+*/
+function makeActivePlayerLoose() {
+  isGamePlaying = false;
+  resetPreviousCurrentRoundScore();
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.remove("active");
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+  document.getElementById("name-" + activePlayer).textContent = "Winner !";
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.add("winner");
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.remove("active");
+  document.querySelector(".dice").style.display = "none";
+}
+
+/* 
+Store the round score in the global score for the current active user 
+*/
 document.querySelector(".btn-hold").addEventListener("click", function() {
   if (isGamePlaying) {
     //1. Add current score to global score
@@ -69,6 +108,7 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
     //3. Check if player won the game
     if (scores[activePlayer] >= 100) {
       isGamePlaying = false;
+      resetPreviousCurrentRoundScore();
       document.getElementById("name-" + activePlayer).textContent = "Winner !";
       document
         .querySelector(".player-" + activePlayer + "-panel")
@@ -84,18 +124,37 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
   }
 });
 
+
 /*
 set round score of both players to 0 and toggle activeplayer hide the dice 
 */
 function nextPlayer() {
   var diceDOM = document.querySelector(".dice");
-  roundScore = 0;
+  resetPreviousCurrentRoundScore();
   document.getElementById("current-0").textContent = roundScore;
   document.getElementById("current-1").textContent = roundScore;
   document.querySelector(".player-0-panel").classList.toggle("active");
   document.querySelector(".player-1-panel").classList.toggle("active");
   activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
   diceDOM.style.display = "none";
+}
+
+
+function printCurrentAndPreviousDiceValuesForActivePlayer() {
+  if (currentRoll === 6 && previousRoll === 6) {
+    console.log("Active user failed as current and previous roll is 6   : " + currentRoll , previousRoll);
+  } else {
+    console.log(
+      "dice value for player " + (activePlayer + 1) + " is  :   " + currentRoll,
+      previousRoll
+    );
+  }
+}
+
+function resetPreviousCurrentRoundScore() {
+  previousRoll = 0;
+  currentRoll = 0;
+  roundScore = 0;
 }
 
 document.querySelector(".btn-new").addEventListener("click", init);
