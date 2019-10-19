@@ -174,3 +174,74 @@ i {
   font-weight: 500;
   color: #f57f17;
 }
+
+.limit-form {
+  position: absolute;
+  left: 40%;
+  top: 35%;
+}
+#limit-score{
+  margin: 7px 14px;
+  padding: 16px;
+  border-radius: 10px;
+}
+.limit-form-label {
+  color: #555;
+  background: none;
+  font-family: Lato;
+  font-size: 20px;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-limit{
+  background-color: #f57f17;
+  box-shadow: 5px 5px 5px grey;
+  color: white;
+  position: absolute;
+  width: 80px;
+  padding: 6px;
+  border-radius: 10px;
+  margin: 70px auto;
+}
+.btn-limit:hover{
+  background-color: #df6a04;
+  box-shadow: 5px 5px 5px rgb(201, 200, 200);
+  color: white;
+  position: absolute;
+  width: 80px;
+  padding: 6px;
+  border-radius: 10px;
+  margin: 70px auto;
+}
+.hide{
+   position: absolute !important;
+   top: -9999px !important;
+}
+
+/* The alert message box */
+.alert {
+  padding: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  transform: background-color 1s 1s;
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
