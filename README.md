@@ -10,3 +10,8 @@ Rules of game :
 - The first player to reach 100 points on GLOBAL score wins the game
 
 
+Extra Rules entered in version 2:
+EXTRA RULES:
+-A player looses a game when he rolls two sixes in a row all score global present previous 
+-Input field to set limit from html
+-Second dice player looses current score if only one of them is a one 
