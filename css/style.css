@@ -158,10 +158,19 @@ i {
 .dice {
   position: absolute;
   left: 50%;
-  top: 178px;
+  top: 110px;
   transform: translateX(-50%);
   height: 100px;
-  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 60px #ff0f0f41;
+}
+
+.dice2 {
+  position: absolute;
+  left: 50%;
+  top: 250px;
+  transform: translateX(-50%);
+  height: 100px;
+  box-shadow: 0px 10px 60px rgba(38, 52, 250, 0.301);
 }
 
 .winner {
@@ -180,7 +189,7 @@ i {
   left: 40%;
   top: 35%;
 }
-#limit-score{
+#limit-score {
   margin: 7px 14px;
   padding: 16px;
   border-radius: 10px;
@@ -194,7 +203,7 @@ i {
   cursor: pointer;
   font-weight: 500;
 }
-.btn-limit{
+.btn-limit {
   background-color: #f57f17;
   box-shadow: 5px 5px 5px grey;
   color: white;
@@ -204,7 +213,7 @@ i {
   border-radius: 10px;
   margin: 70px auto;
 }
-.btn-limit:hover{
+.btn-limit:hover {
   background-color: #df6a04;
   box-shadow: 5px 5px 5px rgb(201, 200, 200);
   color: white;
@@ -214,9 +223,9 @@ i {
   border-radius: 10px;
   margin: 70px auto;
 }
-.hide{
-   position: absolute !important;
-   top: -9999px !important;
+.hide {
+  position: absolute !important;
+  top: -9999px !important;
 }
 
 /* The alert message box */
