@@ -13,7 +13,13 @@ Extra rules:
 -second dice player looses current score if only one of them is a one 
 
 */
-var scores, roundScore, previousRoll, currentRoll, activePlayer, isGamePlaying;
+var scores,
+  roundScore,
+  previousRoll,
+  currentRoll,
+  activePlayer,
+  winningLimit,
+  isGamePlaying;
 
 init();
 
@@ -22,8 +28,10 @@ function to reset global score as well as round scores
 */
 function init() {
   //hide the dice in the begining of the game
+ 
   activePlayer = 0;
   scores = [0, 0];
+  toggleErrorMessage('',0);
   resetPreviousCurrentRoundScore();
   document.querySelector(".dice").style.display = "none";
   document.getElementById("score-0").textContent = 0;
@@ -37,8 +45,18 @@ function init() {
   document
     .querySelector(".player-" + activePlayer + "-panel")
     .classList.add("active");
-  isGamePlaying = true;
 }
+
+document.getElementById("btn-limit").addEventListener("click", function() {
+  let value = document.getElementById("limit-score").value;
+  if (value >= 0) {
+    winningLimit = Math.ceil(value);
+    document.querySelector(".limit-form").classList.add('hide');
+    console.log(winningLimit);
+    isGamePlaying = true;
+  }
+ 
+}, false);
 
 //Roll the the dice and if the value if the rolled dice is one reset the score in round  and set active player as the other player
 document.querySelector(".btn-roll").addEventListener("click", function() {
@@ -52,6 +70,11 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
     //3. Update round score if the rolled number is not one
     if (dice !== 1) {
       if (dice === 6 && currentRoll === 6) {
+        let message =
+          "Oops ! two consecutive sixes player no." +
+          (activePlayer + 1) +
+          " looses";
+        toggleErrorMessage(message, 1);
         previousRoll = currentRoll;
         currentRoll = dice;
         printCurrentAndPreviousDiceValuesForActivePlayer();
@@ -106,7 +129,7 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
     document.querySelector("#score-" + activePlayer).textContent =
       scores[activePlayer];
     //3. Check if player won the game
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= winningLimit) {
       isGamePlaying = false;
       resetPreviousCurrentRoundScore();
       document.getElementById("name-" + activePlayer).textContent = "Winner !";
@@ -124,7 +147,6 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
   }
 });
 
-
 /*
 set round score of both players to 0 and toggle activeplayer hide the dice 
 */
@@ -139,15 +161,26 @@ function nextPlayer() {
   diceDOM.style.display = "none";
 }
 
-
 function printCurrentAndPreviousDiceValuesForActivePlayer() {
   if (currentRoll === 6 && previousRoll === 6) {
-    console.log("Active user failed as current and previous roll is 6   : " + currentRoll , previousRoll);
+    console.log(
+      "Active user failed as current and previous roll is 6   : " + currentRoll,
+      previousRoll
+    );
   } else {
     console.log(
       "dice value for player " + (activePlayer + 1) + " is  :   " + currentRoll,
       previousRoll
     );
+  }
+}
+function toggleErrorMessage(message, show){
+  if(show && message.length>0){
+document.getElementById("close-messgage").style.display = "block";
+document.getElementById("close-btn").textContent = message;
+  }
+  else{
+ document.getElementById("close-messgage").style.display = "none";
   }
 }
 
@@ -157,4 +190,7 @@ function resetPreviousCurrentRoundScore() {
   roundScore = 0;
 }
 
-document.querySelector(".btn-new").addEventListener("click", init);
+document.querySelector(".btn-new").addEventListener("click", function() {
+  isGamePlaying=false;
+  init();
+});
