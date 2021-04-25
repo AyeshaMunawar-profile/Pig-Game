@@ -29,6 +29,21 @@ init();
 function to reset global score as well as round scores 
 */
 function init() {
+
+    console.log(`GAME RULES:
+\n
+  - The game has 2 players, playing in rounds\n
+  - In each turn, a player rolls a dice as many times as he whishes. Each result get added to his ROUND score\n
+  - BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn\n
+  - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn\n
+  - The first player to reach 100 points on GLOBAL score wins the game\n
+  
+  EXTRA RULES:\n
+  -A player looses a game when he rolls two sixes in a row all score global present previous \n
+  -input field to set limit from html\n
+  -second dice player looses current score if only one of them is a one\n `);
+
+
     //hide the dice in the begining of the game
 
     activePlayer = 0;
